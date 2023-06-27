@@ -1,25 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import CityInfo from "./CityInfo";
+import CityMap from "./CityMap";
+import CostOfLiving from "./CostOfLiving";
+import CityComparisonChart from "./CityComparisonChart";
+import Countries from "./Countries";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>City Comparison App</h1>
+      <Countries />
     </div>
   );
-}
+};
 
 export default App;
