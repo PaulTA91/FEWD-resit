@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 
 const Countries = ({ query }) => {
   const [countries, setCountries] = useState([]);
-  const [country, setCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       const url = "https://country-facts.p.rapidapi.com/region/europe";
@@ -27,21 +28,32 @@ const Countries = ({ query }) => {
     fetchData();
   }, [query]);
 
-  const handleCountrySelect = (country) => {
-    setCountry(country);
-    console.log(country.name.common);
+  const handleCountrySelect = (event) => {
+    const selectedCountryName = event.target.value;
+    const selectedCountry = countries.find(
+      (country) => country.name.common === selectedCountryName,
+    );
+    setSelectedCountry(selectedCountry);
+    console.log(selectedCountryName);
   };
 
   return (
     <div>
-      {countries.map((country) => (
-        <button
-          key={country.name.common}
-          onClick={() => handleCountrySelect(country)}
-        >
-          {country.name.common}
-        </button>
-      ))}
+      <label>Select a country:</label>
+      <select
+        value={selectedCountry ? selectedCountry.name.common : ""}
+        onChange={handleCountrySelect}
+      >
+        <option value="">Select</option>
+        {countries.map((country) => (
+          <option key={country.name.common} value={country.name.common}>
+            {country.name.common}
+          </option>
+        ))}
+      </select>
+      <p>
+        <h2>{selectedCountry ? selectedCountry.name.common : ""}</h2>
+      </p>
     </div>
   );
 };
