@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 
+import CityDetails from "./CityDetails";
+
 const Countries = ({ query }) => {
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
+  const [capitalCity, setCapitalCity] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = "https://country-facts.p.rapidapi.com/region/europe";
+      const url = "https://country-facts.p.rapidapi.com/all";
       const options = {
         method: "GET",
         headers: {
@@ -34,12 +37,14 @@ const Countries = ({ query }) => {
       (country) => country.name.common === selectedCountryName,
     );
     setSelectedCountry(selectedCountry);
+    setCapitalCity(selectedCountry ? selectedCountry.capital : "");
     console.log(selectedCountryName);
+    console.log(capitalCity);
   };
 
   return (
     <div>
-      <label>Select a country:</label>
+      <label>Select a country: </label>
       <select
         value={selectedCountry ? selectedCountry.name.common : ""}
         onChange={handleCountrySelect}
@@ -51,9 +56,20 @@ const Countries = ({ query }) => {
           </option>
         ))}
       </select>
-      <p>
-        <h2>{selectedCountry ? selectedCountry.name.common : ""}</h2>
-      </p>
+      {selectedCountry && (
+        <div>
+          <h2>{selectedCountry.name.common}</h2>
+          <h3>
+            {selectedCountry.name.common +
+              " is located in " +
+              selectedCountry.subregion}
+          </h3>
+          <h3>
+            The capital city of {selectedCountry.name.common} is {capitalCity}
+          </h3>
+        </div>
+      )}
+      <CityDetails city={capitalCity} country={selectedCountry} />
     </div>
   );
 };
