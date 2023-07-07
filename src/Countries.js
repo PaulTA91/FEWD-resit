@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import CityDetails from "./CityDetails";
+import CityLocation from "./CityLocation";
 
 const Countries = ({ query }) => {
   const [countries, setCountries] = useState([]);
@@ -39,7 +40,6 @@ const Countries = ({ query }) => {
     setSelectedCountry(selectedCountry);
     setCapitalCity(selectedCountry ? selectedCountry.capital : "");
     console.log(selectedCountryName);
-    console.log(capitalCity);
   };
 
   return (
@@ -67,9 +67,13 @@ const Countries = ({ query }) => {
           <h3>
             The capital city of {selectedCountry.name.common} is {capitalCity}
           </h3>
+          <CityDetails
+            city={capitalCity}
+            country={selectedCountry.name.common}
+          />
+          <CityLocation city={capitalCity[0]} />
         </div>
       )}
-      <CityDetails city={capitalCity} country={selectedCountry} />
     </div>
   );
 };

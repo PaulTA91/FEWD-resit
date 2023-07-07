@@ -7,11 +7,9 @@ const CityDetails = ({ city, country }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const url =
-        "https://cost-of-living-and-prices.p.rapidapi.com/prices?city_name=" +
-        city +
-        "&country_name=" +
-        country;
+      const url = `https://cost-of-living-and-prices.p.rapidapi.com/prices?city_name=${encodeURIComponent(
+        city,
+      )}&country_name=${encodeURIComponent(country)}`;
       const options = {
         method: "GET",
         headers: {
@@ -31,7 +29,7 @@ const CityDetails = ({ city, country }) => {
       }
     };
     fetchData();
-  }, []);
+  }, [city, country]);
 
   return <div>{/* Render city details using the cityDetails state */}</div>;
 };
