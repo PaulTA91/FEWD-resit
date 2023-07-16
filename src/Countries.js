@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import CityDetails from "./CityDetails";
 import CityLocation from "./CityLocation";
 
@@ -7,6 +6,8 @@ const Countries = ({ query }) => {
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [capitalCity, setCapitalCity] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredCountries, setFilteredCountries] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,38 +25,57 @@ const Countries = ({ query }) => {
         const response = await fetch(url, options);
         const result = await response.json();
         setCountries(result);
+        setFilteredCountries(result);
         console.log(result);
       } catch (error) {
         console.error(error);
       }
     };
+
     fetchData();
   }, [query]);
 
-  const handleCountrySelect = (event) => {
-    const selectedCountryName = event.target.value;
-    const selectedCountry = countries.find(
-      (country) => country.name.common === selectedCountryName,
+  const handleCountrySelect = (country) => {
+    setSelectedCountry(country);
+    setCapitalCity(country ? country.capital : "");
+    setSearchQuery("");
+  };
+
+  const handleSearchQueryChange = (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+
+    const filtered = countries.filter((country) =>
+      country.name.common.toLowerCase().includes(query.toLowerCase()),
     );
-    setSelectedCountry(selectedCountry);
-    setCapitalCity(selectedCountry ? selectedCountry.capital : "");
-    console.log(selectedCountryName);
+    setFilteredCountries(filtered);
+    setSelectedCountry(null);
+    setCapitalCity("");
   };
 
   return (
     <div>
-      <label>Select a country: </label>
-      <select
-        value={selectedCountry ? selectedCountry.name.common : ""}
-        onChange={handleCountrySelect}
-      >
-        <option value="">Select</option>
-        {countries.map((country) => (
-          <option key={country.name.common} value={country.name.common}>
-            {country.name.common}
-          </option>
-        ))}
-      </select>
+      <label>Search for a country: </label>
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={handleSearchQueryChange}
+      />
+      {filteredCountries.length === 0 ? (
+        <p>No results found.</p>
+      ) : (
+        <ul>
+          {filteredCountries.map((country) => (
+            <li
+              key={country.name.common}
+              onClick={() => handleCountrySelect(country)}
+              style={{ cursor: "pointer" }}
+            >
+              {country.name.common}
+            </li>
+          ))}
+        </ul>
+      )}
       {selectedCountry && (
         <div>
           <h2>{selectedCountry.name.common}</h2>
