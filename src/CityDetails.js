@@ -1,19 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
-Chart.register(...registerables);
+import StarRating from "./Stars";
 
-// use this component to get the price data from the API then use the following items to make the chart:
-// Pair of Jeans: Item 4 - not using
-// Pair of running Shoes: Item 6 - not using
-// 1KG Apples: Item 7
-// 1KG Bananas: Item 8
-// 1KG Chicken Breast: Item 11 - not using, swapped for Gasoline
-// 12 eggs: Item 13
-// Loaf of Bread: Item 15
-// 1ltr Milk: Item 17
-// 1KG White Rice: Item 22
-// 1Ltr Gasoline: Item 40
+Chart.register(...registerables);
 
 const CityDetails = ({ city, country }) => {
   const [chartData, setChartData] = useState({
@@ -42,6 +32,8 @@ const CityDetails = ({ city, country }) => {
       },
     ],
   });
+
+  const [cityRating, setCityRating] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -105,21 +97,58 @@ const CityDetails = ({ city, country }) => {
     fetchData();
   }, [city, country]);
 
+  useEffect(() => {
+    const storedRating = localStorage.getItem(`${city}-${country}-rating`);
+    if (storedRating) {
+      setCityRating(Number(storedRating));
+    }
+  }, [city, country]);
+
+  const handleSaveRating = (rating) => {
+    localStorage.setItem(`${city}-${country}-rating`, rating);
+    setCityRating(rating);
+  };
+
+  const handleAddToFavorites = () => {
+    const key = `${city}, ${country}`;
+    let favorites = JSON.parse(localStorage.getItem("favoriteCities")) || [];
+    if (!favorites.includes(key)) {
+      favorites.push(key);
+      localStorage.setItem("favoriteCities", JSON.stringify(favorites));
+    }
+  };
+
+  const favorites = JSON.parse(localStorage.getItem("favoriteCities")) || [];
+  const isFavorite = favorites.includes(`${city}, ${country}`);
+
   return (
-    <Bar
-      data={chartData}
-      options={{
-        plugins: {
-          display: true,
-          text: "Cost of Living",
-          color: "#000000",
-        },
-        legend: {
-          display: true,
-          position: "bottom",
-        },
-      }}
-    />
+    <div>
+      {isFavorite ? (
+        <p>This city is in your favorites list.</p>
+      ) : (
+        <button onClick={handleAddToFavorites}>Add to Favorites</button>
+      )}
+      <StarRating
+        totalStars={5}
+        city={city}
+        country={country}
+        onSaveRating={handleSaveRating}
+      />
+      <Bar
+        data={chartData}
+        options={{
+          plugins: {
+            display: true,
+            text: "Cost of Living",
+            color: "#000000",
+          },
+          legend: {
+            display: true,
+            position: "bottom",
+          },
+        }}
+      />
+    </div>
   );
 };
 

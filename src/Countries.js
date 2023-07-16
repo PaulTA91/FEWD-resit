@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import CityDetails from "./CityDetails";
 import CityLocation from "./CityLocation";
+import FavoriteCities from "./FavouriteCities";
 
 const Countries = ({ query }) => {
   const [countries, setCountries] = useState([]);
@@ -37,7 +38,7 @@ const Countries = ({ query }) => {
 
   const handleCountrySelect = (country) => {
     setSelectedCountry(country);
-    setCapitalCity(country ? country.capital : "");
+    setCapitalCity(country ? country.capital[0] : ""); // Update capitalCity to use the first element of the capital array
     setSearchQuery("");
   };
 
@@ -78,6 +79,7 @@ const Countries = ({ query }) => {
       )}
       {selectedCountry && (
         <div>
+          <FavoriteCities />
           <h2>{selectedCountry.name.common}</h2>
           <h3>
             {selectedCountry.name.common +
@@ -90,8 +92,11 @@ const Countries = ({ query }) => {
           <CityDetails
             city={capitalCity}
             country={selectedCountry.name.common}
-          />
-          <CityLocation city={capitalCity[0]} />
+          />{" "}
+          // Update city prop to pass capitalCity as a string instead of an
+          array
+          <CityLocation city={capitalCity} />
+          <FavoriteCities />
         </div>
       )}
     </div>
