@@ -1,0 +1,30 @@
+.country-list-container {
+    max-height: 500px; /* Set the desired height for the scrollable container */
+    overflow-y: auto;
+    min-width: 10em; /* Enable vertical scrolling */
+  }
+  
+  .country-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .country-list li {
+    cursor: pointer;
+  }
+  
+  .siteHeader {
+    background-color: slategray;
+    color: black;
+    padding: 20px;
+  }
+  
+  .bannerText {
+    margin: 0;
+  }
+
+  .removeIcon {
+    cursor: pointer;
+    color: red;
+  }

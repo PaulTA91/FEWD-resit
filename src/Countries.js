@@ -55,50 +55,64 @@ const Countries = ({ query }) => {
   };
 
   return (
-    <div>
-      <label>Search for a country: </label>
-      <input
-        type="text"
-        value={searchQuery}
-        onChange={handleSearchQueryChange}
-      />
-      {filteredCountries.length === 0 ? (
-        <p>No results found.</p>
-      ) : (
-        <ul>
-          {filteredCountries.map((country) => (
-            <li
-              key={country.name.common}
-              onClick={() => handleCountrySelect(country)}
-              style={{ cursor: "pointer" }}
-            >
-              {country.name.common}
-            </li>
-          ))}
-        </ul>
-      )}
-      {selectedCountry && (
-        <div>
-          <FavoriteCities />
-          <h2>{selectedCountry.name.common}</h2>
-          <h3>
-            {selectedCountry.name.common +
-              " is located in " +
-              selectedCountry.subregion}
-          </h3>
-          <h3>
-            The capital city of {selectedCountry.name.common} is {capitalCity}
-          </h3>
-          <CityDetails
-            city={capitalCity}
-            country={selectedCountry.name.common}
-          />{" "}
-          // Update city prop to pass capitalCity as a string instead of an
-          array
-          <CityLocation city={capitalCity} />
-          <FavoriteCities />
+    <div className="container-fluid">
+      <div className="row">
+        <div className="col-md-2">
+          <label>Search for a country: </label>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchQueryChange}
+          />
+          <div className="country-list-container">
+            {filteredCountries.length === 0 ? (
+              <p>No results found.</p>
+            ) : (
+              <ul className="country-list">
+                {filteredCountries.map((country) => (
+                  <li
+                    key={country.name.common}
+                    onClick={() => handleCountrySelect(country)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {country.name.common}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
-      )}
+        {selectedCountry && (
+          <div className="col-md-10">
+            <div className="row">
+              <div className="col-12">
+                <h2>{selectedCountry.name.common}</h2>
+                <h3>
+                  {selectedCountry.name.common +
+                    " is located in " +
+                    selectedCountry.subregion}
+                </h3>
+                <h3>
+                  The capital city of {selectedCountry.name.common} is{" "}
+                  {capitalCity}
+                </h3>
+              </div>
+              <div className="col-md-5">
+                <CityDetails
+                  city={capitalCity}
+                  country={selectedCountry.name.common}
+                />
+              </div>
+              <div className="col-md-5">
+                <CityLocation city={capitalCity} />
+              </div>
+              <div className="col-2">
+                <FavoriteCities />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
