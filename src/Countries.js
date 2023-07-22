@@ -94,9 +94,9 @@ const Countries = ({ query }) => {
         </div>
 
         {selectedCountry && (
-          <div className="col-md-10">
+          <div>
             <div className="row">
-              <div className="col-12">
+              <div className="col-md-6">
                 <Card>
                   <CardHeader>
                     <h2 className="countryName">
@@ -115,18 +115,18 @@ const Countries = ({ query }) => {
                 </Card>
               </div>
               <p></p>
-              <div className="col-md-5">
+              <div className="col-md-6 col-12">
                 <CityDetails
                   city={capitalCity}
                   country={selectedCountry.name.common}
                 />
               </div>
               <p></p>
-              <div className="col-md-5">
+              <div className="col-md-6 col-12">
                 <CityLocation city={capitalCity} />
               </div>
               <p></p>
-              <div className="col-md-2">
+              <div className="col-md-6 col-12">
                 <FavoriteCities />
               </div>
             </div>
