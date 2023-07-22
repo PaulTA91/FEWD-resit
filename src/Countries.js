@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import CityDetails from "./CityDetails";
 import CityLocation from "./CityLocation";
 import FavoriteCities from "./FavouriteCities";
+import { Accordion, Card } from "react-bootstrap";
+import AccordionHeader from "react-bootstrap/esm/AccordionHeader";
+import AccordionBody from "react-bootstrap/esm/AccordionBody";
+import CardHeader from "react-bootstrap/esm/CardHeader";
 
 const Countries = ({ query }) => {
   const [countries, setCountries] = useState([]);
@@ -17,7 +21,7 @@ const Countries = ({ query }) => {
         method: "GET",
         headers: {
           "X-RapidAPI-Key":
-            "fbbdc20ea5msh670f2fa05ebb446p1f121ajsnaf58092f3b27",
+            "551ee52c0amshc731cf049aad965p1fce89jsnf9cdd8f82e66",
           "X-RapidAPI-Host": "country-facts.p.rapidapi.com",
         },
       };
@@ -57,56 +61,72 @@ const Countries = ({ query }) => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-md-2">
-          <label>Search for a country: </label>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={handleSearchQueryChange}
-          />
-          <div className="country-list-container">
-            {filteredCountries.length === 0 ? (
-              <p>No results found.</p>
-            ) : (
-              <ul className="country-list">
-                {filteredCountries.map((country) => (
-                  <li
-                    key={country.name.common}
-                    onClick={() => handleCountrySelect(country)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {country.name.common}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+        <div className="col-md-3">
+          <Accordion>
+            <AccordionHeader>
+              <label>Search for a country:</label>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchQueryChange}
+              />
+            </AccordionHeader>
+            <AccordionBody>
+              <div className="country-list-container">
+                {filteredCountries.length === 0 ? (
+                  <p>No results found.</p>
+                ) : (
+                  <ul className="country-list">
+                    {filteredCountries.map((country) => (
+                      <li
+                        key={country.name.common}
+                        onClick={() => handleCountrySelect(country)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        {country.name.common}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </AccordionBody>
+          </Accordion>
         </div>
+
         {selectedCountry && (
           <div className="col-md-10">
             <div className="row">
               <div className="col-12">
-                <h2>{selectedCountry.name.common}</h2>
-                <h3>
-                  {selectedCountry.name.common +
-                    " is located in " +
-                    selectedCountry.subregion}
-                </h3>
-                <h3>
-                  The capital city of {selectedCountry.name.common} is{" "}
-                  {capitalCity}
-                </h3>
+                <Card>
+                  <CardHeader>
+                    <h2 className="countryName">
+                      {selectedCountry.name.common}
+                    </h2>
+                  </CardHeader>
+                  <h3>
+                    {selectedCountry.name.common +
+                      " is located in " +
+                      selectedCountry.subregion}
+                  </h3>
+                  <h3>
+                    The capital city of {selectedCountry.name.common} is{" "}
+                    {capitalCity}
+                  </h3>
+                </Card>
               </div>
+              <p></p>
               <div className="col-md-5">
                 <CityDetails
                   city={capitalCity}
                   country={selectedCountry.name.common}
                 />
               </div>
+              <p></p>
               <div className="col-md-5">
                 <CityLocation city={capitalCity} />
               </div>
-              <div className="col-2">
+              <p></p>
+              <div className="col-md-2">
                 <FavoriteCities />
               </div>
             </div>

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Card } from "react-bootstrap";
 import { Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import StarRating from "./Stars";
+import CardHeader from "react-bootstrap/esm/CardHeader";
 
 Chart.register(...registerables);
 
@@ -109,24 +111,25 @@ const CityDetails = ({ city, country }) => {
     setCityRating(rating);
   };
 
-  const handleAddToFavorites = () => {
+  const handleAddToFavourites = () => {
     const key = `${city}, ${country}`;
-    let favorites = JSON.parse(localStorage.getItem("favoriteCities")) || [];
-    if (!favorites.includes(key)) {
-      favorites.push(key);
-      localStorage.setItem("favoriteCities", JSON.stringify(favorites));
+    let favourites = JSON.parse(localStorage.getItem("favouriteCities")) || [];
+    if (!favourites.includes(key)) {
+      favourites.push(key);
+      localStorage.setItem("favouriteCities", JSON.stringify(favourites));
     }
   };
 
-  const favorites = JSON.parse(localStorage.getItem("favoriteCities")) || [];
-  const isFavorite = favorites.includes(`${city}, ${country}`);
+  const favourites = JSON.parse(localStorage.getItem("favouriteCities")) || [];
+  const isfavourite = favourites.includes(`${city}, ${country}`);
 
   return (
     <div>
-      {isFavorite ? (
-        <p>This city is in your favorites list.</p>
+      <p></p>
+      {isfavourite ? (
+        <p>This city is in your favourites list.</p>
       ) : (
-        <button onClick={handleAddToFavorites}>Add to Favorites</button>
+        <button onClick={handleAddToFavourites}>Add to favourites</button>
       )}
       <StarRating
         totalStars={5}
@@ -134,20 +137,26 @@ const CityDetails = ({ city, country }) => {
         country={country}
         onSaveRating={handleSaveRating}
       />
-      <Bar
-        data={chartData}
-        options={{
-          plugins: {
-            display: true,
-            text: "Cost of Living",
-            color: "#000000",
-          },
-          legend: {
-            display: true,
-            position: "bottom",
-          },
-        }}
-      />
+      <p></p>
+      <Card>
+        <CardHeader>
+          <h2>The average prices for basic groceries in the local currency:</h2>
+        </CardHeader>
+        <Bar
+          data={chartData}
+          options={{
+            plugins: {
+              display: true,
+              text: "Cost of Living",
+              color: "#000000",
+            },
+            legend: {
+              display: true,
+              position: "bottom",
+            },
+          }}
+        />
+      </Card>
     </div>
   );
 };

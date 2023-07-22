@@ -1,12 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import markerIconPng from "leaflet/dist/images/marker-icon.png";
+import { Icon } from "leaflet";
+
 import { cityLocationData } from "./CityLocationData";
-import L from "leaflet";
+import { Card } from "react-bootstrap";
+import CardHeader from "react-bootstrap/esm/CardHeader";
 
 const CityLocation = ({ city }) => {
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
-  const mapRef = useRef(null);
-  const mapInstanceRef = useRef(null);
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
 
   useEffect(() => {
     const searchCityLocation = () => {
@@ -15,34 +18,51 @@ const CityLocation = ({ city }) => {
           (cityData) => cityData.city_name === city,
         );
         if (selectedCity) {
-          setLatitude(selectedCity.lat.toString());
-          setLongitude(selectedCity.lng.toString());
+          setLatitude(selectedCity.lat);
+          setLongitude(selectedCity.lng);
           return;
         }
       }
-      setLatitude("");
-      setLongitude("");
+      setLatitude(null);
+      setLongitude(null);
     };
 
     searchCityLocation();
   }, [city]);
 
-  useEffect(() => {
-    if (latitude && longitude) {
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
-      }
-      const map = L.map(mapRef.current).setView([latitude, longitude], 13);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "&copy; OpenStreetMap contributors",
-        maxZoom: 18,
-      }).addTo(map);
-      L.marker([latitude, longitude]).addTo(map);
-      mapInstanceRef.current = map;
-    }
-  }, [latitude, longitude]);
-
-  return <div ref={mapRef} style={{ height: "400px" }}></div>;
+  return (
+    <div>
+      <Card>
+        <CardHeader>
+          <h2>This city on the map:</h2>
+        </CardHeader>
+        {latitude && longitude ? (
+          <MapContainer
+            center={[latitude, longitude]}
+            zoom={13}
+            style={{ height: "400px" }}
+          >
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+            <Marker
+              position={[latitude, longitude]}
+              icon={
+                new Icon({
+                  iconUrl: markerIconPng,
+                  iconSize: [25, 41],
+                  iconAnchor: [12, 41],
+                })
+              }
+            ></Marker>
+          </MapContainer>
+        ) : (
+          <p>No data available for this city.</p>
+        )}
+      </Card>
+    </div>
+  );
 };
 
 export default CityLocation;

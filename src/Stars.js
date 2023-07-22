@@ -10,6 +10,8 @@ export default function StarRating({ totalStars = 5, city, country }) {
     const savedRating = localStorage.getItem(storageKey);
     if (savedRating) {
       setSelectedStars(parseInt(savedRating));
+    } else {
+      setSelectedStars(0); //if no stored value for this city, show default star rating as 0
     }
   }, [storageKey]);
 
