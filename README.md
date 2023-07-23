@@ -3,7 +3,15 @@
 This repository can be cloned locally and is run by navigating to the local directory and running 
 ### npm start
 
-# Getting Started with Create React App
+## Deployment
+
+this application has been fully deployed and can be found at the following link: 
+
+## Issues
+
+Wihle the application allows a user to add an item to the favourites list the process is not working correctly. A user may add a city but it will not display until a full refresh is performed. Removing a city also removes all recently added cities. This could be session related as some items remain but testing is inconclusive.
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
