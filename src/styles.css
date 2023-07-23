@@ -37,3 +37,19 @@
   .countryName{
     text-decoration: underline;
   }
+  .favouriteButton{
+    width: 50%;
+    margin-top: 0.5em;
+    border-radius: 12px;
+    background-color: skyblue;
+  }
+
+  html, body{
+    margin: 0;
+    padding: 0;
+    background-color: paleturquoise;
+  }
+
+  .mainBody{
+    background-color: paleturquoise;
+  }

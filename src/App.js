@@ -7,12 +7,15 @@ import Countries from "./Countries";
 
 const App = () => {
   return (
-    <div>
-      <div className="siteHeader">
-        <h1 className="bannerText">City Comparison App</h1>
+    <body className="mainBody">
+      <div>
+        <div className="siteHeader">
+          <h1 className="bannerText">City Comparison App</h1>
+        </div>
+
+        <Countries />
       </div>
-      <Countries />
-    </div>
+    </body>
   );
 };
 

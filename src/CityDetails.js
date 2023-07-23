@@ -29,7 +29,7 @@ const CityDetails = ({ city, country }) => {
           "#03ba6f",
           "#2a71d0",
           "#DDDD345",
-          "#55dft5",
+          "#FFFFFF",
         ],
       },
     ],
@@ -86,7 +86,7 @@ const CityDetails = ({ city, country }) => {
                 "#03ba6f",
                 "#2a71d0",
                 "#dddd34",
-                "#55dft5",
+                "#FF0074",
               ],
             },
           ],
@@ -125,23 +125,23 @@ const CityDetails = ({ city, country }) => {
 
   return (
     <div>
-      <p></p>
-      {isfavourite ? (
-        <p>This city is in your favourites list.</p>
-      ) : (
-        <button onClick={handleAddToFavourites}>Add to favourites</button>
-      )}
-      <StarRating
-        totalStars={5}
-        city={city}
-        country={country}
-        onSaveRating={handleSaveRating}
-      />
-      <p></p>
       <Card>
         <CardHeader>
           <h2>The average prices for basic groceries in the local currency:</h2>
         </CardHeader>
+        {isfavourite ? (
+          <p>This city is in your favourites list.</p>
+        ) : (
+          <button className="favouriteButton" onClick={handleAddToFavourites}>
+            Add to favourites
+          </button>
+        )}
+        <StarRating
+          totalStars={5}
+          city={city}
+          country={country}
+          onSaveRating={handleSaveRating}
+        />
         <Bar
           data={chartData}
           options={{

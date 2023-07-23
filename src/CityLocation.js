@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import markerIconPng from "leaflet/dist/images/marker-icon.png";
 import { Icon } from "leaflet";
@@ -10,6 +10,7 @@ import CardHeader from "react-bootstrap/esm/CardHeader";
 const CityLocation = ({ city }) => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+  const mapRef = useRef(null);
 
   useEffect(() => {
     const searchCityLocation = () => {
@@ -30,6 +31,14 @@ const CityLocation = ({ city }) => {
     searchCityLocation();
   }, [city]);
 
+  // Recenter the map whenever the latitude and longitude change
+  useEffect(() => {
+    if (latitude && longitude && mapRef.current) {
+      const map = mapRef.current;
+      map.panTo([latitude, longitude]);
+    }
+  }, [latitude, longitude]);
+
   return (
     <div>
       <Card>
@@ -38,6 +47,7 @@ const CityLocation = ({ city }) => {
         </CardHeader>
         {latitude && longitude ? (
           <MapContainer
+            ref={mapRef} // Set the mapRef
             center={[latitude, longitude]}
             zoom={13}
             style={{ height: "400px" }}

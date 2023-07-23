@@ -13,6 +13,7 @@ const Countries = ({ query }) => {
   const [capitalCity, setCapitalCity] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCountries, setFilteredCountries] = useState([]);
+  const [currencyName, setCurrencyName] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,6 +41,16 @@ const Countries = ({ query }) => {
     fetchData();
   }, [query]);
 
+  useEffect(() => {
+    // Update the currency name whenever selectedCountry changes
+    if (selectedCountry) {
+      const currenciesKeys = Object.keys(selectedCountry.currencies);
+      const firstCurrencyKey = currenciesKeys[0];
+      const name = selectedCountry.currencies[firstCurrencyKey]?.name || "";
+      setCurrencyName(name);
+    }
+  }, [selectedCountry]);
+
   const handleCountrySelect = (country) => {
     setSelectedCountry(country);
     setCapitalCity(country ? country.capital[0] : ""); // Update capitalCity to use the first element of the capital array
@@ -61,10 +72,10 @@ const Countries = ({ query }) => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-md-3">
+        <div className="col-md-3 mb-2">
           <Accordion>
             <AccordionHeader>
-              <label>Search for a country:</label>
+              <label className="mr-2">Search for a country: </label>
               <input
                 type="text"
                 value={searchQuery}
@@ -95,7 +106,12 @@ const Countries = ({ query }) => {
 
         {selectedCountry && (
           <div>
-            <div className="row">
+            <div className="row mb-3">
+              {" "}
+              {/* Add vertical margin */}
+              <div className="col-md-6 mb-2">
+                <FavoriteCities />
+              </div>
               <div className="col-md-6">
                 <Card>
                   <CardHeader>
@@ -112,22 +128,29 @@ const Countries = ({ query }) => {
                     The capital city of {selectedCountry.name.common} is{" "}
                     {capitalCity}
                   </h3>
+                  <h3>
+                    The local currency used in {capitalCity} is:{" "}
+                    <span style={{ textDecoration: "underline bold" }}>
+                      {currencyName}
+                    </span>
+                  </h3>
                 </Card>
               </div>
-              <p></p>
-              <div className="col-md-6 col-12">
+            </div>
+            <div className="row mb-2">
+              <div className="col-md-6 mb-2">
+                {" "}
+                {/* Add vertical margin */}
                 <CityDetails
                   city={capitalCity}
                   country={selectedCountry.name.common}
                 />
               </div>
-              <p></p>
-              <div className="col-md-6 col-12">
+
+              <div className="col-md-6 mb-2">
+                {" "}
+                {/* Add vertical margin */}
                 <CityLocation city={capitalCity} />
-              </div>
-              <p></p>
-              <div className="col-md-6 col-12">
-                <FavoriteCities />
               </div>
             </div>
           </div>
