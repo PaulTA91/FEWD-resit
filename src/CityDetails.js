@@ -91,7 +91,6 @@ const CityDetails = ({ city, country }) => {
             },
           ],
         });
-        console.log(chartData);
       } catch (error) {
         console.error(error);
       }
@@ -103,6 +102,7 @@ const CityDetails = ({ city, country }) => {
     const storedRating = localStorage.getItem(`${city}-${country}-rating`);
     if (storedRating) {
       setCityRating(Number(storedRating));
+      console.log(cityRating);
     }
   }, [city, country]);
 
