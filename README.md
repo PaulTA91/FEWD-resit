@@ -1,15 +1,18 @@
 # FEWD Resit 2023
 
-This repository can be cloned locally and is run by navigating to the local directory and running 
-### npm start
+To run this applicaiton locally please clone, navigate to the directory and run the following commands:
+
+### `npm install`
+
+### `npm start`
 
 ## Deployment
 
-this application has been fully deployed and can be found at the following link: 
+This application has been fully deployed and can be found at the following link: [https://fewd-resit-p-armstrong.onrender.com/](https://fewd-resit-p-armstrong.onrender.com/) 
 
 ## Issues
 
-Wihle the application allows a user to add an item to the favourites list the process is not working correctly. A user may add a city but it will not display until a full refresh is performed. Removing a city also removes all recently added cities. This could be session related as some items remain but testing is inconclusive.
+While the application allows a user to add an item to the favourites list the process is not working correctly. A user may add a city but it will not display until a full refresh is performed. Removing a city also removes all recently added cities. This could be session related as some items remain but testing is inconclusive.
 
 ## Getting Started with Create React App
 
