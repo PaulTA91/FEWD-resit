@@ -72,7 +72,7 @@ const Countries = ({ query }) => {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-md-3 mb-2">
+        <div className="col-md-6 mb-2">
           <Accordion>
             <AccordionHeader>
               <label className="mr-2">Search for a country: </label>
